@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+body {
+	font-family: arial;
+}
+
+header {
+	padding: 6pt;
+	color: white;
+	background-color: #000066;
+	clear: left;
+	text-align: center;
+	font-size: 18pt;
+	font-weight: bold;
+}
+
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+ul.menu {
+	overflow: auto;
+	background-color: #555;
+}
+
+nav {
+	position: fixed;
+	width: 20%;
+	height: 100%;
+	overflow: auto;
+	background-color: #f1f1f1;
+}
+
+li {
+	color: #000;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+ul.menu li {
+	float: left;
+	display: inline;
+	text-align: center;
+    padding: 14px 16px;
+	color: white;
+}
+
+ul.menu li:hover:not(.active) {
+	background-color: #f1f1f1;
+	color: black;
+}
+
+nav li {
+	display: block;
+	padding: 8px 16px;
+}
+
+nav li:active {
+	background-color: #0066cc;
+	color: white;
+}
+
+nav li:hover:not(.active) {
+	background-color: #0080ff;
+	color: white;
+}
+
+input[type=text] {
+	margin: 8px 0px;
+	font-size: 12pt;
+}
+
+input[type=button] {
+	background-color: #0066cc;
+	color: white;
+	margin: 8px 0;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 14px;
+}
+
+input[type=button]:hover {
+	background-color: #004d99;
+}
+
+label {
+	display: inline-block;
+	margin-top: 8px;
+	margin-right: 4px;
+}
+
+textarea {
+	margin: 8px 0px;
+	vertical-align: top;
+	border: 0.1px solid #cccccc;
+}
+
+.error {
+	padding-left: 8px;
+	color: red;
+}
+
+article {
+	margin-left: 20%;
+	padding: 1px 16px;
+}
+</style>
+</head>
+<body>
+
+<header>CASED cards</header>
+
+<ul class="menu">
+	<li>Load</li>
+	<li>Save</li>
+	<li>Print</li>
+</ul>
+
+<nav>
+<ul id="drugList">
+</ul>
+</nav>
+
+<article>
+
+	<form id="druginfo">
+		<strong style="font-size:16pt">Drug name: </strong><input type="text" name="name" size="35" onkeydown="if(event.keyCode == 13) submitDrug()" oninput="clearErrors()" style="font-size:16pt"><span class="error" id="nameerror"></span><br>
+		<label>Characteristic stem(s): </label><input type="text" name="charstem"><br>
+		<label>Class: </label><input type="text" name="class" size="30"><br>
+		<label>Mechanism of action: </label><textarea name="moa" cols="40"></textarea><br>
+		<label>Contraindications: </label><textarea name="contra" cols="40"></textarea><br>
+		<label>Side effects: </label><textarea name="se" cols="40"></textarea><br>
+		<label>Elimination: </label><textarea name="elim" cols="40"></textarea><br>
+		<label>Drug-drug interactions: </label><textarea name="drugint" cols="40"></textarea><br>
+		<label>Availability: </label><input type="text" name="avail" size="30"><br>
+		<input type="button" onclick="submitDrug()" value="Submit">
+		<input type="button" onclick="clearInfo()" value="Clear">
+		<input type="button" onclick="deleteDrug()" value="Delete">
+	</form>
+
+	<p id="test"></p>
+</article>
+
+<script>
+var CASED = function (name) {
+	this.name = name;
+	this.charstem = "";
+	this.class = "";
+	this.moa = "";
+	this.contra = "";
+	this.se = "";
+	this.elim = "";
+	this.drugint = "";
+	this.avail = "";
+};
+
+function submitDrug() {
+	newDrug = new CASED(document.getElementById("druginfo").elements["name"].value);
+
+	if(newDrug.name === "") {
+		document.getElementById("druginfo").elements["name"].style.borderColor = "red";
+		document.getElementById("nameerror").innerHTML = "Please enter a drug name.";
+	} else if(findDrug(newDrug.name, drugs) !== -1) {
+		document.getElementById("druginfo").elements["name"].style.borderColor = "red";
+		document.getElementById("nameerror").innerHTML = "This drug already exists.";
+	} else {
+		newDrug.charstem = document.getElementById("druginfo").elements["charstem"].value;
+		newDrug.class = document.getElementById("druginfo").elements["class"].value;
+		newDrug.moa = document.getElementById("druginfo").elements["moa"].value;
+		newDrug.contra = document.getElementById("druginfo").elements["contra"].value;
+		newDrug.se = document.getElementById("druginfo").elements["se"].value;
+		newDrug.elim = document.getElementById("druginfo").elements["elim"].value;
+		newDrug.drugint = document.getElementById("druginfo").elements["drugint"].value;
+		newDrug.avail = document.getElementById("druginfo").elements["avail"].value;
+
+		drugs[drugs.length] = newDrug;
+
+		refreshDrugList(drugs);
+		clearInfo();
+	}
+};
+
+function refreshDrugList(drugs) {
+	drugs.sort(function(a, b){
+		if(a.name < b.name) return -1;
+		if(a.name > b.name) return 1;
+		return 0;
+	})
+
+	var out = "<ul>";
+
+	for(var i = 0; i < drugs.length; i++) {
+		out += "<li onclick=\"viewDrug(\'" + drugs[i].name + "\')\">" + drugs[i].name + "</li>";
+	}
+	out += "</ul>";
+
+	document.getElementById("drugList").innerHTML = out;
+}
+
+function clearInfo() {
+	document.getElementById("druginfo").elements["name"].value = '';
+	document.getElementById("druginfo").elements["charstem"].value = '';
+	document.getElementById("druginfo").elements["class"].value = '';
+	document.getElementById("druginfo").elements["moa"].value = '';
+	document.getElementById("druginfo").elements["contra"].value = '';
+	document.getElementById("druginfo").elements["se"].value = '';
+	document.getElementById("druginfo").elements["elim"].value = '';
+	document.getElementById("druginfo").elements["drugint"].value = '';
+	document.getElementById("druginfo").elements["avail"].value = '';
+
+	clearErrors();
+	currDrug = new CASED("");
+}
+
+function findDrug(name, drugs) {
+	for(var i = 0; i < drugs.length; i++) {
+		if(name.toLowerCase() === drugs[i].name.toLowerCase()) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+function deleteDrug() {
+	if(currDrug.name === "") {
+		clearInfo();
+	} else if(confirm("Are you sure that you want to delete " + currDrug.name + "?")) {
+		drugs.splice(findDrug(currDrug.name, drugs),1);
+
+		refreshDrugList(drugs);
+
+		clearInfo();
+	}
+}
+
+function viewDrug(name) {
+	// Saving open drug (if one is open)
+	if(currDrug.name !== "" && findDrug(currDrug.name, drugs) !== -1) {
+		drugs.splice(findDrug(currDrug.name, drugs),1);
+		submitDrug();
+	}
+
+	// Loading selected drug
+	currDrug = drugs[findDrug(name, drugs)];
+	document.getElementById("druginfo").elements["name"].value = name;
+	document.getElementById("druginfo").elements["charstem"].value = currDrug.charstem;
+	document.getElementById("druginfo").elements["class"].value = currDrug.class;
+	document.getElementById("druginfo").elements["moa"].value = currDrug.moa;
+	document.getElementById("druginfo").elements["contra"].value = currDrug.contra;
+	document.getElementById("druginfo").elements["se"].value = currDrug.se;
+	document.getElementById("druginfo").elements["elim"].value = currDrug.elim;
+	document.getElementById("druginfo").elements["drugint"].value = currDrug.drugint;
+	document.getElementById("druginfo").elements["avail"].value = currDrug.avail;
+}
+
+function clearErrors() {
+	document.getElementById("nameerror").innerHTML = "";
+	document.getElementById('druginfo').elements['name'].style.borderColor = 'initial';
+}
+
+var drugs = [];
+var currDrug = new CASED("");
+</script>
+
+</body>
+</html>

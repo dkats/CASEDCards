@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CASED Cards</title>
+<link rel="stylesheet" type="text/css" href="css/main.css">
+<meta name="author" content="Daniel J. Kats">
+</head>
+<body>
+
+<header>CASED Cards</header>
+
+<ul class="menu">
+	<li onclick="document.getElementById('loadfile').click()">Load</li><input type="file" id="loadfile" onchange="load()" style="display:none;">
+	<li onclick="save()">Save</li>
+	<li onclick="window.print()">Print</li>
+</ul>
+
+<nav>
+<ul id="drugList">
+</ul>
+</nav>
+
+<article id="main">
+	<form id="druginfo">
+		<strong style="font-size:16pt">Drug name: </strong><input type="text" name="name" size="35" onkeydown="if(event.keyCode == 13) submitDrug()" oninput="clearErrors()" style="font-size:16pt"><span class="error" id="nameerror"></span><br>
+		<label>Characteristic stem(s): </label><input type="text" name="charstem"><br>
+		<label>Class: </label><input type="text" name="class" size="30"><br>
+		<label>Mechanism of action: </label><textarea name="moa" cols="40"></textarea><br>
+		<label>Contraindications: </label><textarea name="contra" cols="40"></textarea><br>
+		<label>Side effects: </label><textarea name="se" cols="40"></textarea><br>
+		<label>Elimination: </label><textarea name="elim" cols="40"></textarea><br>
+		<label>Drug-drug interactions: </label><textarea name="drugint" cols="40"></textarea><br>
+		<label>Availability: </label><input type="text" name="avail" size="30"><br>
+		<input type="button" onclick="submitDrug()" value="Submit">
+		<input type="button" onclick="clearInfo()" value="Clear">
+		<input type="button" onclick="deleteDrug()" value="Delete">
+	</form>
+</article>
+
+<article id="printable"></article>
+
+<script src="js/CASEDcard.js"></script>
+
+</body>
+</html>

@@ -167,7 +167,7 @@ article {
 	}
 
 	html, body {
-		border: 5px solid black;
 		height: auto;
+		/*border: 5px solid black;*/
 	}
 }

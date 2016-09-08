@@ -1,13 +1,34 @@
+var props = [
+	'name', 
+	'charstem', 
+	'class', 
+	'moa', 
+	'contra', 
+	'se', 
+	'elim', 
+	'drugint', 
+	'avail'
+];
+var propsString = [
+	'Name', 
+	'Characteristic stem(s)', 
+	'Class', 
+	'Mechanism of action', 
+	'Contraindications', 
+	'Side effects', 
+	'Elimination', 
+	'Drug-drug interactions', 
+	'Availability'
+];
+
 var CASED = function (name) {
 	this.name = name;
-	this.charstem = "";
-	this.class = "";
-	this.moa = "";
-	this.contra = "";
-	this.se = "";
-	this.elim = "";
-	this.drugint = "";
-	this.avail = "";
+	for(var i in props) {
+		if(props[i] !== 'name') {
+			this[props[i]] = '';
+		}
+	}
+	this.datemod = '';
 };
 
 function submitDrug() {
@@ -20,14 +41,11 @@ function submitDrug() {
 		document.getElementById("druginfo").elements["name"].style.borderColor = "red";
 		document.getElementById("nameerror").innerHTML = "This drug already exists.";
 	} else {
-		newDrug.charstem = document.getElementById("druginfo").elements["charstem"].value;
-		newDrug.class = document.getElementById("druginfo").elements["class"].value;
-		newDrug.moa = document.getElementById("druginfo").elements["moa"].value;
-		newDrug.contra = document.getElementById("druginfo").elements["contra"].value;
-		newDrug.se = document.getElementById("druginfo").elements["se"].value;
-		newDrug.elim = document.getElementById("druginfo").elements["elim"].value;
-		newDrug.drugint = document.getElementById("druginfo").elements["drugint"].value;
-		newDrug.avail = document.getElementById("druginfo").elements["avail"].value;
+		var elements = document.getElementById("druginfo").elements;
+		for(var i in elements) {
+			newDrug[elements[i].name] = elements[i].value;
+		}
+		newDrug.datemod = Date().toString();
 
 		drugs[drugs.length] = newDrug;
 
@@ -50,14 +68,11 @@ function refreshDrugs(drugs) {
 		drugList += "<li onclick=\"viewDrug(\'" + drugs[i].name + "\')\">" + drugs[i].name + "</li>";
 
 		printable += "<div class=\"card\"><div class=\"name\">" + drugs[i].name + "</div>";
-		if(drugs[i].charstem !== ""){printable += "<div class='property'><label>Characteristic stems(s):</label> " + drugs[i].charstem + "</div>";}
-		if(drugs[i].class !== ""){printable += "<div class='property'><label>Class:</label> " + drugs[i].class + "</div>";}
-		if(drugs[i].moa !== ""){printable += "<div class='property'><label>Mechanism of action:</label> " + drugs[i].moa + "</div>";}
-		if(drugs[i].contra !== ""){printable += "<div class='property'><label>Contraindications:</label> " + drugs[i].contra + "</div>";}
-		if(drugs[i].se !== ""){printable += "<div class='property'><label>Side effects:</label> " + drugs[i].se + "</div>";}
-		if(drugs[i].elim !== ""){printable += "<div class='property'><label>Elimination:</label> " + drugs[i].elim + "</div>";}
-		if(drugs[i].drugint !== ""){printable += "<div class='property'><label>Drug-drug interactions:</label> " + drugs[i].drugint + "</div>";}
-		if(drugs[i].avail !== ""){printable += "<div class='property'><label>Availability:</label> " + drugs[i].avail + "</div>";}
+		for(var propi in props) {
+			if(props[propi] !== 'name' && drugs[i][props[propi]] !== '') {
+				printable += "<div class='property'><label>" + propsString[propi] + ":</label> " + drugs[i][props[propi]] + "</div>";
+			}
+		}
 		printable += "</div>";
 	}
 	drugList += "</ul>";
@@ -68,16 +83,7 @@ function refreshDrugs(drugs) {
 }
 
 function clearInfo() {
-	document.getElementById("druginfo").elements["name"].value = '';
-	document.getElementById("druginfo").elements["charstem"].value = '';
-	document.getElementById("druginfo").elements["class"].value = '';
-	document.getElementById("druginfo").elements["moa"].value = '';
-	document.getElementById("druginfo").elements["contra"].value = '';
-	document.getElementById("druginfo").elements["se"].value = '';
-	document.getElementById("druginfo").elements["elim"].value = '';
-	document.getElementById("druginfo").elements["drugint"].value = '';
-	document.getElementById("druginfo").elements["avail"].value = '';
-
+	document.getElementById("druginfo").reset();
 	clearErrors();
 	currDrug = new CASED("");
 }
@@ -109,15 +115,10 @@ function viewDrug(name) {
 
 	// Loading selected drug
 	currDrug = drugs[findDrug(name, drugs)];
-	document.getElementById("druginfo").elements["name"].value = name;
-	document.getElementById("druginfo").elements["charstem"].value = currDrug.charstem;
-	document.getElementById("druginfo").elements["class"].value = currDrug.class;
-	document.getElementById("druginfo").elements["moa"].value = currDrug.moa;
-	document.getElementById("druginfo").elements["contra"].value = currDrug.contra;
-	document.getElementById("druginfo").elements["se"].value = currDrug.se;
-	document.getElementById("druginfo").elements["elim"].value = currDrug.elim;
-	document.getElementById("druginfo").elements["drugint"].value = currDrug.drugint;
-	document.getElementById("druginfo").elements["avail"].value = currDrug.avail;
+	var elements = document.getElementById("druginfo").elements;
+	for(var i in elements) {
+		elements[i].value = currDrug[elements[i].name];
+	}
 }
 
 function updateDrug() {

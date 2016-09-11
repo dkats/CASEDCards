@@ -5,9 +5,10 @@ var props = [
 	'moa', 
 	'contra', 
 	'se', 
+	'avail',
 	'elim', 
 	'drugint', 
-	'avail'
+	'misc'
 ];
 var propsString = [
 	'Name', 
@@ -16,9 +17,10 @@ var propsString = [
 	'Mechanism of action', 
 	'Contraindications', 
 	'Side effects', 
+	'Availability',
 	'Elimination', 
 	'Drug-drug interactions', 
-	'Availability'
+	'Miscellanous'
 ];
 
 var CASED = function (name) {
@@ -32,18 +34,22 @@ var CASED = function (name) {
 };
 
 function submitDrug() {
-	newDrug = new CASED(document.getElementById("druginfo").elements["name"].value);
+	newDrug = new CASED(document.getElementById("druginfo").elements["name"].value.trim());
 
 	if(newDrug.name === "") {
 		document.getElementById("druginfo").elements["name"].style.borderColor = "red";
 		document.getElementById("nameerror").innerHTML = "Please enter a drug name.";
-	} else if(findDrug(newDrug.name, drugs) !== -1) {
-		document.getElementById("druginfo").elements["name"].style.borderColor = "red";
-		document.getElementById("nameerror").innerHTML = "This drug already exists.";
 	} else {
-		var elements = document.getElementById("druginfo").elements;
-		for(var i in elements) {
-			newDrug[elements[i].name] = elements[i].value;
+		var basename = newDrug.name;
+		var count = 1;
+		while(findDrug(newDrug.name, drugs) !== -1) {
+			newDrug.name = basename + " (" + count++ + ")";
+			document.getElementById("druginfo").elements["name"].value = newDrug.name;
+		}
+
+		for(var i in props) {
+			var element = document.getElementById("druginfo").elements[props[i]];
+			newDrug[element.name] = element.value.trim();
 		}
 		newDrug.datemod = Date().toString();
 
@@ -56,8 +62,8 @@ function submitDrug() {
 
 function refreshDrugs(drugs) {
 	drugs.sort(function(a, b){
-		if(a.name < b.name) return -1;
-		if(a.name > b.name) return 1;
+		if(a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+		if(a.name.toLowerCase() > b.name.toLowerCase()) return 1;
 		return 0;
 	})
 
@@ -70,7 +76,7 @@ function refreshDrugs(drugs) {
 		printable += "<div class=\"card\"><div class=\"name\">" + drugs[i].name + "</div>";
 		for(var propi in props) {
 			if(props[propi] !== 'name' && drugs[i][props[propi]] !== '') {
-				printable += "<div class='property'><label>" + propsString[propi] + ":</label> " + drugs[i][props[propi]] + "</div>";
+				printable += "<div class='property'><label>" + propsString[propi] + ":</label> " + drugs[i][props[propi]].replace(/[\n\r]/g,"<br>") + "</div>";
 			}
 		}
 		printable += "</div>";
@@ -143,7 +149,7 @@ function save() {
 	for(var i = 0; i < drugs.length; i++) {
 		out += "\n";
 		for(var property in drugs[i]) {
-			out += property.toUpperCase() + ": " + drugs[i][property] + "\n";
+			out += property.toUpperCase() + ": " + drugs[i][property].replace(/[\n\r]/g,"\\") + "\n";
 		}
 	}
 
@@ -163,11 +169,16 @@ function loadFile(inTxt) {
 		} else {
 			var line = lines[i].split(": ");
 			var prop = line[0];
-			var data = line.slice(1).join("");
+			var data = line.slice(1).join(": ").replace(/ \\ /g,"\n");
 			for(var property in newDrug) {
 				if(property.toLowerCase() === prop.toLowerCase()) {
 					newDrug[property] = data;
 				}
+			}
+			var basename = newDrug.name;
+			var count = 1;
+			while(findDrug(newDrug.name, drugs) !== -1) {
+				newDrug.name = basename + " (" + count++ + ")";
 			}
 		}
 	}
@@ -191,6 +202,9 @@ function load() {
 			alert("Please select a text file.");
 		}
 	}
+
+	clearInfo();
+	document.getElementById("loadfile").value = document.getElementById("loadfile").defaultValue;
 }
 
 function isTxt(filename) {

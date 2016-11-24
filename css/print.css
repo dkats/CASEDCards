@@ -1,0 +1,41 @@
+body {
+	font-family: arial;
+}
+
+article {
+	margin: 0;
+	display: initial;
+}
+
+header {
+	text-align: center;
+	font-size: 24pt;
+	font-weight: bold;
+	padding-top: 3pt;
+}
+
+.card {
+	display: inline-block;
+	margin-top: 12pt;
+	padding: 6pt;
+	border: 2px solid black;
+	border-radius: 12px;
+	width: 95%;
+	font-size: 10pt;
+}
+
+.name {
+	font-size: 16pt;
+	font-weight: bold;
+	text-align: center;
+}
+
+.label {
+	text-decoration: underline;
+}
+
+.property {
+	padding-bottom: 3px;
+	padding-left: 4pt;
+	text-indent: -2pt;
+}

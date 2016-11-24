@@ -7,15 +7,19 @@
 </head>
 <body>
 
+<div class="header-wrapper">
 <header>CASED Cards</header>
 
 <ul class="menu">
-	<li onclick="document.getElementById('loadfile').click()">Load</li><input type="file" id="loadfile" onchange="load()" style="display:none;">
-	<li onclick="save()">Save</li>
-	<li onclick="window.print()">Print</li>
+	<li onclick="if(confirm('Are you sure you want to clear all data?')){window.location.reload();}">Reset</li>
+	<li onclick="document.getElementById('loadfile').click()">Load</li><input type="file" id="loadfile" onchange="load();" style="display:none;">
+	<li onclick="save();">Save</li>
+	<li onclick="window.open('print.html');">Print</li>
 	<li style="float:right;" onclick="window.open('mailto:djk175@case.edu?subject=CASEDcards bug! Ew!');">Report bug</li>
 	<li style="float:right;" onclick="window.open('mailto:djk175@case.edu?subject=CASEDcards question');">Contact</li>
+	<li style="float:right;" onclick="window.open('resources.html');">Resources</li>
 </ul>
+</div>
 
 <nav>
 <ul id="drugList">
@@ -23,24 +27,26 @@
 </nav>
 
 <article id="main">
+	<table style="border-spacing: 2pt;">
 	<form id="druginfo">
-		<strong style="font-size:16pt">Drug name: </strong><input type="text" name="name" size="35" onkeydown="if(event.keyCode == 13) submitDrug()" oninput="clearErrors()" style="font-size:16pt"><span class="error" id="nameerror"></span><br>
-		<label>Characteristic stem(s): </label><input type="text" name="charstem"><br>
-		<label>Class: </label><input type="text" name="class" size="50"><br>
-		<label>Mechanism of action: </label><textarea name="moa" cols="80" rows="3"></textarea><br>
-		<label>Contraindications: </label><textarea name="contra" cols="80" rows="3"></textarea><br>
-		<label>Side effects: </label><textarea name="se" cols="80" rows="3"></textarea><br>
-		<label>Availability: </label><input type="text" name="avail" size="50"><br>
-		<label>Elimination: </label><textarea name="elim" cols="80" rows="3"></textarea><br>
-		<label>Drug-drug interactions: </label><textarea name="drugint" cols="80" rows="3"></textarea><br>
-		<label>Miscellaneous: </label><textarea name="misc" cols="80" rows="3"></textarea><br>
+		<tr><td><label><strong style="font-size:16pt">Drug name: </strong></label></td><td><input type="text" name="name" size="35" onkeydown="if(event.keyCode == 13) submitDrug()" oninput="clearErrors()" style="font-size:16pt"><span class="error" id="nameerror"></span></td></tr>
+		<tr><td><label>Characteristic stem(s): </label></td><td><input type="text" name="charstem" size="50"></td></tr>
+		<tr><td><label>Class: </label></td><td><input type="text" name="class" size="50"></td></tr>
+		<tr><td><label>Mechanism of action: </label></td><td><textarea name="moa" cols="80" rows="3"></textarea></td></tr>
+		<tr><td><label>Contraindications: </label></td><td><textarea name="contra" cols="80" rows="3"></textarea></td></tr>
+		<tr><td><label>Side effects: </label></td><td><textarea name="se" cols="80" rows="3"></textarea></td></tr>
+		<tr><td><label>Availability: </label></td><td><textarea name="avail" cols="80" rows="3"></textarea></td></tr>
+		<tr><td><label>Elimination: </label></td><td><textarea name="elim" cols="80" rows="3"></textarea></td></tr>
+		<tr><td><label>Drug-drug interactions: </label></td><td><textarea name="drugint" cols="80" rows="3"></textarea></td></tr>
+		<tr><td><label>Miscellaneous: </label></td><td><textarea name="misc" cols="80" rows="3"></textarea></td></tr>
 	</form>
-		<input type="button" onclick="submitDrug()" value="Submit">
-		<input type="button" onclick="clearInfo()" value="Clear">
-		<input type="button" onclick="deleteDrug()" value="Delete">
+		<tr><td>
+		<input type="button" onclick="submitDrug();" value="Submit">
+		<input type="button" onclick="clearInfo();" value="Clear">
+		<input type="button" onclick="deleteDrug();" value="Delete">
+		</td></tr>
+	</table>
 </article>
-
-<article id="printable"></article>
 
 <script src="js/CASEDcard.js"></script>
 

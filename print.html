@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CASED Cards Printout</title>
+<link rel="stylesheet" type="text/css" href="css/print.css">
+<meta name="author" content="Daniel J. Kats">
+</head>
+<body onload="document.getElementById('printable').innerHTML = localStorage.getItem('printable');window.print()">
+
+<header>CASED Cards</header>
+
+<article id="printable"></article>
+
+<script src="js/CASEDcard.js"></script>
+
+</body>
+</html>

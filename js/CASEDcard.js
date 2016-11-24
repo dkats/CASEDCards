@@ -55,12 +55,12 @@ function submitDrug() {
 
 		drugs[drugs.length] = newDrug;
 
-		refreshDrugs(drugs);
+		refreshDrugs();
 		clearInfo();
 	}
 };
 
-function refreshDrugs(drugs) {
+function refreshDrugs() {
 	drugs.sort(function(a, b){
 		if(a.name.toLowerCase() < b.name.toLowerCase()) return -1;
 		if(a.name.toLowerCase() > b.name.toLowerCase()) return 1;
@@ -68,7 +68,7 @@ function refreshDrugs(drugs) {
 	})
 
 	var drugList = "<ul>";
-	var printable = "<div class=\"title\">CASED Cards</div><span class=\"printText\">";
+	printable = "<span class=\"printText\">";
 
 	for(var i = 0; i < drugs.length; i++) {
 		drugList += "<li onclick=\"viewDrug(\'" + drugs[i].name + "\')\">" + drugs[i].name + "</li>";
@@ -76,7 +76,12 @@ function refreshDrugs(drugs) {
 		printable += "<div class=\"card\"><div class=\"name\">" + drugs[i].name + "</div>";
 		for(var propi in props) {
 			if(props[propi] !== 'name' && drugs[i][props[propi]] !== '') {
-				printable += "<div class='property'><label>" + propsString[propi] + ":</label> " + drugs[i][props[propi]].replace(/[\n\r]/g,"<br>") + "</div>";
+				// printable += "<div class='property'><span class='label'>" + propsString[propi] + ":</span> " + drugs[i][props[propi]].replace(/[\n\r]/g,"<br>") + "</div>";
+				if(drugs[i][props[propi]].indexOf("\n") === -1 && drugs[i][props[propi]].indexOf("\r") === -1) {
+					printable += "<div class='property'><span class='label'>" + propsString[propi] + ":</span> " + drugs[i][props[propi]].replace(/[\n\r]/g,"<br>") + "</div>";
+				} else {
+					printable += "<div class='property'><span class='label'>" + propsString[propi] + ":</span><br>" + drugs[i][props[propi]].replace(/[\n\r]/g,"<br>") + "</div>";
+				}
 			}
 		}
 		printable += "</div>";
@@ -85,7 +90,7 @@ function refreshDrugs(drugs) {
 	printable += "</span>";
 
 	document.getElementById("drugList").innerHTML = drugList;
-	document.getElementById("printable").innerHTML = printable;
+	localStorage.setItem("printable",printable);
 }
 
 function clearInfo() {
@@ -109,7 +114,7 @@ function deleteDrug() {
 	} else if(confirm("Are you sure that you want to delete " + currDrug.name + "?")) {
 		drugs.splice(findDrug(currDrug.name, drugs),1);
 
-		refreshDrugs(drugs);
+		refreshDrugs();
 
 		clearInfo();
 	}
@@ -169,7 +174,8 @@ function loadFile(inTxt) {
 		} else {
 			var line = lines[i].split(": ");
 			var prop = line[0];
-			var data = line.slice(1).join(": ").replace(/ \\ /g,"\n");
+			var data = line.slice(1).join(": ").replace(/\\/g,"\n");
+			console.log(data);
 			for(var property in newDrug) {
 				if(property.toLowerCase() === prop.toLowerCase()) {
 					newDrug[property] = data;
@@ -183,7 +189,7 @@ function loadFile(inTxt) {
 		}
 	}
 
-	refreshDrugs(drugs);
+	refreshDrugs();
 }
 
 function load() {
@@ -217,3 +223,4 @@ function isTxt(filename) {
 // TODO: Get rid of global variables
 var drugs = [];
 var currDrug = new CASED("");
+var printable = "";

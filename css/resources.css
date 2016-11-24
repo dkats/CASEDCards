@@ -1,0 +1,46 @@
+body {
+	font-family: arial;
+	background-color: #e2f3ff;
+	margin: 0px;
+}
+
+header {
+	position: fixed;
+	width: 100%;
+	padding: 6pt;
+	color: white;
+	background-color: #000066;
+	clear: left;
+	text-align: center;
+	font-size: 24pt;
+	font-weight: bold;
+}
+
+article {
+	display: inline-block;
+	width: 94%;
+	margin-top: 40pt;
+	margin-left: 3%;
+	overflow: auto;
+}
+
+table {
+	margin: 1em auto;
+	border-spacing: 50pt 0;
+}
+
+td {
+	vertical-align: top;
+}
+
+ul {
+	list-style-type: square;
+}
+
+a:visited {
+	color: blue;
+}
+
+a:hover {
+	color: orange;
+}

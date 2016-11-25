@@ -36,7 +36,7 @@ nav {
 	width: 20%;
 	height: 100%;
 	overflow: auto;
-	background-color: #d6edff;
+	background-color: #ceeaff;
 }
 
 li {
@@ -64,7 +64,7 @@ nav li {
 	padding: 8px 16px;
 }
 
-nav li:active {
+nav li.active {
 	background-color: #0066cc;
 	color: white;
 }

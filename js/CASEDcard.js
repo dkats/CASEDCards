@@ -71,7 +71,7 @@ function refreshDrugs() {
 	printable = "<span class=\"printText\">";
 
 	for(var i = 0; i < drugs.length; i++) {
-		drugList += "<li onclick=\"viewDrug(\'" + drugs[i].name + "\')\">" + drugs[i].name + "</li>";
+		drugList += "<li id=\"" + drugs[i].name + "_LI\" onclick=\"viewDrug(\'" + drugs[i].name + "\')\">" + drugs[i].name + "</li>";
 
 		printable += "<div class=\"card\"><div class=\"name\">" + drugs[i].name + "</div>";
 		for(var propi in props) {
@@ -123,6 +123,13 @@ function deleteDrug() {
 function viewDrug(name) {
 	// Saving open drug (if one is open)
 	updateDrug();
+
+	// Clear class of previous drug
+	currDrugLI.className = "";
+
+	// Change class of current drug
+	currDrugLI = document.getElementById(name + "_LI");
+	currDrugLI.className = "active";
 
 	// Loading selected drug
 	currDrug = drugs[findDrug(name, drugs)];
@@ -223,4 +230,5 @@ function isTxt(filename) {
 // TODO: Get rid of global variables
 var drugs = [];
 var currDrug = new CASED("");
+var currDrugLI = "";
 var printable = "";

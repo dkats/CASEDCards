@@ -97,6 +97,8 @@ function refreshDrugs() {
 
 function clearInfo() {
 	document.getElementById("druginfo").reset();
+	// Clear class of previous drug
+	currDrugLI.className = "";
 	clearErrors();
 	currDrug = new CASED("");
 }

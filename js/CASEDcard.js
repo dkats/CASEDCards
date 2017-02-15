@@ -2,6 +2,7 @@ var props = [
 	'name', 
 	'charstem', 
 	'class', 
+	'ind', 
 	'moa', 
 	'contra', 
 	'se', 
@@ -14,6 +15,7 @@ var propsString = [
 	'Name', 
 	'Characteristic stem(s)', 
 	'Class', 
+	'Indications', 
 	'Mechanism of action', 
 	'Contraindications', 
 	'Side effects', 
@@ -165,8 +167,9 @@ function save() {
 		}
 	}
 
-	myWindow = window.open("data:text," + encodeURIComponent(out), "_blank", "width=200, height=100");
+	myWindow = window.open("data:text," + encodeURIComponent(out), "_blank");
 	myWindow.focus();
+	myWindow.alert("Save this text file to your computer.");
 }
 
 function loadFile(inTxt) {

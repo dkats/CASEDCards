@@ -29,9 +29,10 @@
 <article id="main">
 	<table style="border-spacing: 2pt;">
 	<form id="druginfo">
-		<tr><td><label><strong style="font-size:16pt">Drug name: </strong></label></td><td><input type="text" name="name" size="35" onkeydown="if(event.keyCode == 13) submitDrug()" oninput="clearErrors()" style="font-size:16pt"><span class="error" id="nameerror"></span></td></tr>
-		<tr><td><label>Characteristic stem(s): </label></td><td><input type="text" name="charstem" size="50"></td></tr>
-		<tr><td><label>Class: </label></td><td><input type="text" name="class" size="50"></td></tr>
+		<tr><td><label><strong style="font-size:16pt">Drug name: </strong></label></td><td><textarea name="name" cols="40" rows="1" onkeydown="if(event.keyCode == 13) submitDrug()" oninput="clearErrors()" style="font-size:16pt"></textarea><span class="error" id="nameerror"></span></td></tr>
+		<tr><td><label>Characteristic stem(s): </label></td><td><textarea name="charstem" cols="50" rows="1"></textarea></td></tr>
+		<tr><td><label>Class: </label></td><td><textarea name="class" cols="50" rows="1"></textarea></td></tr>
+		<tr><td><label>Indications: </label></td><td><textarea name="ind" cols="80" rows="3"></textarea></td></tr>
 		<tr><td><label>Mechanism of action: </label></td><td><textarea name="moa" cols="80" rows="3"></textarea></td></tr>
 		<tr><td><label>Contraindications: </label></td><td><textarea name="contra" cols="80" rows="3"></textarea></td></tr>
 		<tr><td><label>Side effects: </label></td><td><textarea name="se" cols="80" rows="3"></textarea></td></tr>

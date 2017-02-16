@@ -7,6 +7,7 @@ body {
 .header-wrapper {
 	position: fixed;
 	width: 100%;
+	z-index: 2;
 }
 
 header {
@@ -106,6 +107,32 @@ input[type=button]:hover {
 
 label {
 	display: inline-block;
+}
+
+.tooltip {
+	position: relative;
+	display: inline-block;
+	border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+	visibility: hidden;
+	width: 180px;
+	background-color: black;
+	color: #fff;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px 5px;
+
+	/* Position the tooltip */
+	position: absolute;
+	z-index: 1;
+	top: 105%;
+	left: 0%;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
 }
 
 textarea {

@@ -128,7 +128,7 @@ label {
 	position: absolute;
 	z-index: 1;
 	top: 105%;
-	left: 0%;
+	left: 20%;
 }
 
 .tooltip:hover .tooltiptext {

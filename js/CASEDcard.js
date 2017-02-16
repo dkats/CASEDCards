@@ -232,6 +232,25 @@ function isTxt(filename) {
 	return false;
 }
 
+function example() {
+	if(findDrug("*EXAMPLE* Rivaroxaban (Xarelto)", drugs) === -1) {
+		exampleDrug = new CASED("*EXAMPLE* Rivaroxaban (Xarelto)");
+		exampleDrug["class"] = "Anti-coagulant"
+		exampleDrug["moa"] = "Direct factor Xa inhibitor"
+		exampleDrug["avail"] = "F0 ~ 80-100% (dose dependent) - take with food"
+		exampleDrug["se"] = "Bleeding complications, spinal/epidural hematoma, GI upset"
+		exampleDrug["elim"] = "Hepatic > Kidney, low intrinsic clearance"
+		exampleDrug["drugint"] = "Strong CYP3A4/P-gp inhibitors/inducers, other drugs affecting coagulation, platelet fxn"
+		exampleDrug["misc"] = "Taken from the \"Intro to Pharmacology\" lecture on 2/6/17"
+
+		drugs[drugs.length] = exampleDrug;
+
+		refreshDrugs();
+	} else {
+		alert("The example drug (*EXAMPLE* Rivaroxaban (Xarelto)) was already added")
+	}
+}
+
 // TODO: Get rid of global variables
 var drugs = [];
 var currDrug = new CASED("");

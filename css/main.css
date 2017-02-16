@@ -37,6 +37,7 @@ ul.bottommenu {
     bottom: 0;
     width:100%;
 	background-color: #e2f3ff;
+	z-index: 2;
 }
 
 nav {
@@ -128,7 +129,7 @@ label {
 	position: absolute;
 	z-index: 1;
 	top: 105%;
-	left: 20%;
+	left: 15px;
 }
 
 .tooltip:hover .tooltiptext {

@@ -14,7 +14,7 @@
 	<li onclick="example();">Example card</li>
 	<li onclick="if(confirm('Are you sure you want to clear all data?')){window.location.reload();}">Reset</li>
 	<li onclick="document.getElementById('loadfile').click()">Load</li><input type="file" id="loadfile" onchange="load();" style="display:none;">
-	<li onclick="save();">Save</li>
+	<li onclick="alert('Save this text file to your computer.');save();">Save</li>
 	<li onclick="updateDrug();window.open('print.html');">Print</li>
 	<li style="float:right;" onclick="window.open('https://github.com/dkats/CASEDCards');">Source code</li>
 	<li style="float:right;" onclick="window.open('mailto:djk175@case.edu?subject=CASEDcards bug! Ew!');">Report bug</li>

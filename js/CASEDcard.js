@@ -171,7 +171,6 @@ function save() {
 
 	myWindow = window.open("data:text," + encodeURIComponent(out), "_blank");
 	myWindow.focus();
-	myWindow.alert("Save this text file to your computer.");
 }
 
 function loadFile(inTxt) {
